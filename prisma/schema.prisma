@@ -16,37 +16,37 @@ model User {
   password String
   email    String @unique
 
-  ownedPosts    Post[] @relation("ownedPosts")
+  ownedPosts Post[]
 }
 
-model AnimalType{
-  id       String @id @default(uuid())
-  name     String
-  
-  ownedTopics Topic[] @relation("ownedTopics")
+model AnimalType {
+  id          String  @id @default(uuid())
+  name        String
+  description String
+  ownedTopics Topic[]
 }
 
-model Topic{
-  id       String @id @default(uuid())
-  title    String
-
+model Topic {
+  id           String     @id @default(uuid())
+  title        String
+  description  String
   animalTypeId String
-  animalType AnimalType @relation("ownedTopics", fields: [animalTypeId], references: [id])
-  
-  posts    Post[] @relation("posts")
+  animalType   AnimalType @relation(fields: [animalTypeId], references: [id], onDelete: Cascade)
+
+  posts Post[]
 }
 
 model Post {
-  id       String @id @default(uuid())
-  title    String
-  content  String
-  date     DateTime
+  id      String @id @default(uuid())
+  title   String
+  content String
+  // date    DateTime
 
   ownerUserId String
-  ownerUser User @relation("ownedPosts", fields: [ownerUserId], references: [id])
+  ownerUser   User   @relation(fields: [ownerUserId], references: [id], onDelete: Cascade)
 
-  topicId String
-  ownerTopic Topic @relation("posts", fields: [topicId], references: [id])
+  ownerTopicId String
+  ownerTopic   Topic  @relation(fields: [ownerTopicId], references: [id], onDelete: Cascade)
 }
 
 //schema.prisma, controllers, services, routes, paeditint index.ts
