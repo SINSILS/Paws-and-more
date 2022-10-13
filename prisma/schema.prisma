@@ -14,4 +14,39 @@ model User {
   id       String @id @default(uuid())
   username String
   password String
+  email    String @unique
+
+  ownedPosts    Post[] @relation("ownedPosts")
 }
+
+model AnimalType{
+  id       String @id @default(uuid())
+  name     String
+  
+  ownedTopics Topic[] @relation("ownedTopics")
+}
+
+model Topic{
+  id       String @id @default(uuid())
+  title    String
+
+  animalTypeId String
+  animalType AnimalType @relation("ownedTopics", fields: [animalTypeId], references: [id])
+  
+  posts    Post[] @relation("posts")
+}
+
+model Post {
+  id       String @id @default(uuid())
+  title    String
+  content  String
+  date     DateTime
+
+  ownerUserId String
+  ownerUser User @relation("ownedPosts", fields: [ownerUserId], references: [id])
+
+  topicId String
+  ownerTopic Topic @relation("posts", fields: [topicId], references: [id])
+}
+
+//schema.prisma, controllers, services, routes, paeditint index.ts
