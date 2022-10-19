@@ -1,9 +1,26 @@
 import { prisma } from '../config/prisma';
 import { HttpException } from '../exceptions/httpException';
 
-const getPosts = async (id: string) => {
+const getTopicPosts = async (animalTypeId: string, topicId: string) => {
+  // const posts = await prisma.post.findMany({
+  //   where: { ownerTopicId: id },
+  //   select: {
+  //     id: true,
+  //     title: true,
+  //     content: true,
+  //     ownerTopic: true,
+  //     ownerUser: true,
+  //   },
+  const topicPosts = await prisma.$queryRaw`select p.*
+                                            from "Post" p
+                                            join "Topic" t on t.id = ${topicId}
+                                            join "AnimalType" a on a.id = ${animalTypeId}
+                                            where p."ownerTopicId" = t.id`;
+  return topicPosts;
+};
+
+const getPosts = async () => {
   const posts = await prisma.post.findMany({
-    where: { ownerTopicId: id },
     select: {
       id: true,
       title: true,
@@ -13,9 +30,6 @@ const getPosts = async (id: string) => {
     },
   });
 
-  if (!posts) {
-    throw new HttpException(404, 'Posts not found');
-  }
   return posts;
 };
 
@@ -60,6 +74,7 @@ const deletePost = async (id: string) => {
 };
 
 export const postService = {
+  getTopicPosts,
   getPosts,
   getPost,
   createPost,

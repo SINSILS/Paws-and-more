@@ -3,7 +3,8 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.get('/animalTypes/:animalTypeId/topic/:ownerTopicId/posts', postController.getPosts);
+router.get('/posts', postController.getPosts);
+router.get('/animalTypes/:animalTypeId/topic/:ownerTopicId/posts', postController.getTopicPosts);
 router.get('/post/:id', postController.getPost);
 router.post('/post', postController.createPost);
 router.put('/post/:id', postController.updatePost);

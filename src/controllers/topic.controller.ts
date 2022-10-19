@@ -19,6 +19,15 @@ const getTopic = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const getAnimalTypeTopcis = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const animalTypeTopics = await topicService.getAnimalTypeTopics(req.params.animalTypeId);
+    res.status(200).send(animalTypeTopics);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const createTopic = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const topic = await topicService.createTopic(req.body);
@@ -49,6 +58,7 @@ const deleteTopic = async (req: Request, res: Response, next: NextFunction) => {
 export const topicController = {
   getTopics,
   getTopic,
+  getAnimalTypeTopcis,
   createTopic,
   updateTopic,
   deleteTopic,

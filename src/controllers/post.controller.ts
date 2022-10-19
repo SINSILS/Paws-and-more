@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 
 const getPosts = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const posts = await postService.getPosts(req.params.ownerTopicId);
+    const posts = await postService.getPosts();
     res.status(200).send(posts);
   } catch (error) {
     next(error);
@@ -14,6 +14,18 @@ const getPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const post = await postService.getPost(req.params.id);
     res.status(200).send(post);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getTopicPosts = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const topicPosts = await postService.getTopicPosts(
+      req.params.animalTypeId,
+      req.params.ownerTopicId
+    );
+    res.status(200).send(topicPosts);
   } catch (error) {
     next(error);
   }
@@ -49,6 +61,7 @@ const deletePost = async (req: Request, res: Response, next: NextFunction) => {
 export const postController = {
   getPosts,
   getPost,
+  getTopicPosts,
   createPost,
   updatePost,
   deletePost,

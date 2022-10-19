@@ -11,7 +11,6 @@ const getTopics = async (id: string) => {
       animalType: true,
     },
   });
-
   if (!topics) {
     throw new HttpException(404, 'Topics not found');
   }
@@ -24,6 +23,20 @@ const getTopic = async (id: string) => {
     throw new HttpException(404, 'Topic not found!');
   }
   return topic;
+};
+
+const getAnimalTypeTopics = async (id: string) => {
+  const animalTypeTopics = await prisma.topic.findMany({
+    where: { animalTypeId: id },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      animalType: true,
+    },
+  });
+
+  return animalTypeTopics;
 };
 
 const createTopic = async (data: { title: string; description: string; animalTypeId: string }) => {
@@ -51,6 +64,7 @@ const deleteTopic = async (id: string) => {
 export const topicService = {
   getTopics,
   getTopic,
+  getAnimalTypeTopics,
   createTopic,
   updateTopic,
   deleteTopic,
