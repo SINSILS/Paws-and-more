@@ -9,6 +9,7 @@ const getPosts = async (id: string) => {
       title: true,
       content: true,
       ownerTopic: true,
+      ownerUser: true,
     },
   });
 

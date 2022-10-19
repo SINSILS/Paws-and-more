@@ -3,7 +3,7 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.get('/topic/:animalTypeId', topicController.getTopics);
+router.get('/animalTypes/:animalTypeId/topic', topicController.getTopics);
 router.get('/topic/:id', topicController.getTopic);
 router.post('/topic', topicController.createTopic);
 router.put('/topic/:id', topicController.updateTopic);

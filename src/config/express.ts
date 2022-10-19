@@ -2,6 +2,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
 import { ORIGIN } from '../constants';
+import errorMiddleware from '../middlewares/errorMiddleware';
 import { animalTypeRouter } from '../routes/animalType.router';
 import { postRouter } from '../routes/post.router';
 import { topicRouter } from '../routes/topic.router';
@@ -19,6 +20,7 @@ const expressConfig = () => {
   app.use('/api', animalTypeRouter);
   app.use('/api', topicRouter);
   app.use('/api', postRouter);
+  app.use(errorMiddleware);
   // app.use('/api/auth', authRouter);
 
   return app;
