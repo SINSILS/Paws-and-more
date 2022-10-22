@@ -8,8 +8,8 @@ const errorMiddleware = (error: HttpException, req: Request, res: Response, next
 
     // Don't show error to user
     if (!(error instanceof HttpException)) {
-      status = 500;
-      message = 'Internal server error';
+      status = 400;
+      message = 'Bad request!';
     }
 
     res.status(status).json({ message });

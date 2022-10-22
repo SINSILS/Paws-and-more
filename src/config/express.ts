@@ -21,7 +21,7 @@ const expressConfig = () => {
   app.use('/api', topicRouter);
   app.use('/api', postRouter);
   app.use((req, res) => {
-    res.status(404).send("Sorry can't find that!");
+    res.status(404).send(JSON.parse("Sorry can't find that!"));
   });
   app.use(errorMiddleware);
   // app.use('/api/auth', authRouter);

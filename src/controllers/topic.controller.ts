@@ -12,7 +12,7 @@ const getTopics = async (req: Request, res: Response, next: NextFunction) => {
 
 const getTopic = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const topic = await topicService.getTopic(req.params.id);
+    const topic = await topicService.getTopic(req.params.animalTypeId, req.params.id);
     res.status(200).send(topic);
   } catch (error) {
     next(error);
@@ -30,8 +30,8 @@ const getAnimalTypeTopcis = async (req: Request, res: Response, next: NextFuncti
 
 const createTopic = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const topic = await topicService.createTopic(req.body);
-    res.status(200).send(topic);
+    const topic = await topicService.createTopic(req.params.animalTypeId, req.body);
+    res.status(201).send(topic);
   } catch (error) {
     next(error);
   }
@@ -39,7 +39,7 @@ const createTopic = async (req: Request, res: Response, next: NextFunction) => {
 
 const updateTopic = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const topic = await topicService.updateTopic(req.body, req.params.id);
+    const topic = await topicService.updateTopic(req.params.animalTypeId, req.params.id, req.body);
     res.status(200).send(topic);
   } catch (error) {
     next(error);
@@ -48,8 +48,8 @@ const updateTopic = async (req: Request, res: Response, next: NextFunction) => {
 
 const deleteTopic = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const topic = await topicService.deleteTopic(req.params.id);
-    res.status(200).send(topic);
+    const topic = await topicService.deleteTopic(req.params.animalTypeId, req.params.id);
+    res.status(204).send(topic);
   } catch (error) {
     next(error);
   }

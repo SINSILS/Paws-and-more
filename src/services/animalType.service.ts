@@ -32,6 +32,10 @@ const createAnimalType = async (data: { name: string; description: string }) => 
 };
 
 const updateAnimalType = async (data: { name: string; description: string }, id: string) => {
+  const temp = await prisma.animalType.findUnique({ where: { id } });
+  if (!temp) {
+    throw new HttpException(404, 'Animal type not found!');
+  }
   const animalType = await prisma.animalType.update({
     where: { id: id },
     data: { name: data.name, description: data.description },
@@ -40,10 +44,14 @@ const updateAnimalType = async (data: { name: string; description: string }, id:
 };
 
 const deleteAnimalType = async (id: string) => {
+  const temp = await prisma.animalType.findUnique({ where: { id } });
+  if (!temp) {
+    throw new HttpException(404, 'Animal type not found!');
+  }
   const animalType = await prisma.animalType.delete({
     where: { id: id },
   });
-  return animalType;
+  // return animalType;
 };
 
 export const animalTypeService = {

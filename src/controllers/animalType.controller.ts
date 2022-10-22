@@ -22,7 +22,7 @@ const getAnimalType = async (req: Request, res: Response, next: NextFunction) =>
 const createAnimalType = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const animalType = await animalTypeService.createAnimalType(req.body);
-    res.status(200).send(animalType);
+    res.status(201).send(animalType);
   } catch (error) {
     next(error);
   }
@@ -40,7 +40,7 @@ const updateAnimalType = async (req: Request, res: Response, next: NextFunction)
 const deleteAnimalType = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const corporation = await animalTypeService.deleteAnimalType(req.params.id);
-    res.status(200).send(corporation);
+    res.status(204).send(corporation);
   } catch (error) {
     next(error);
   }

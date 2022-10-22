@@ -5,9 +5,9 @@ const router = Router();
 
 router.get('/topic', topicController.getTopics);
 router.get('/animalTypes/:animalTypeId/topic', topicController.getAnimalTypeTopcis);
-router.get('/topic/:id', topicController.getTopic);
-router.post('/topic', topicController.createTopic);
-router.put('/topic/:id', topicController.updateTopic);
-router.delete('/topic/:id', topicController.deleteTopic);
+router.get('/animalTypes/:animalTypeId/topic/:id', topicController.getTopic);
+router.post('/animalTypes/:animalTypeId/topic', topicController.createTopic);
+router.put('/animalTypes/:animalTypeId/topic/:id', topicController.updateTopic);
+router.delete('/animalTypes/:animalTypeId/topic/:id', topicController.deleteTopic);
 
 export const topicRouter = router;

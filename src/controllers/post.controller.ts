@@ -12,16 +12,20 @@ const getPosts = async (req: Request, res: Response, next: NextFunction) => {
 
 const getPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const post = await postService.getPost(req.params.id);
+    const post = await postService.getPost(
+      req.params.animalTypeId,
+      req.params.ownerTopicId,
+      req.params.id
+    );
     res.status(200).send(post);
   } catch (error) {
     next(error);
   }
 };
 
-const getTopicPosts = async (req: Request, res: Response, next: NextFunction) => {
+const getTopicPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const topicPosts = await postService.getTopicPosts(
+    const topicPosts = await postService.getTopicPost(
       req.params.animalTypeId,
       req.params.ownerTopicId
     );
@@ -33,8 +37,12 @@ const getTopicPosts = async (req: Request, res: Response, next: NextFunction) =>
 
 const createPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const post = await postService.createPost(req.body);
-    res.status(200).send(post);
+    const post = await postService.createPost(
+      req.params.animalTypeId,
+      req.params.ownerTopicId,
+      req.body
+    );
+    res.status(201).send(post);
   } catch (error) {
     next(error);
   }
@@ -42,7 +50,12 @@ const createPost = async (req: Request, res: Response, next: NextFunction) => {
 
 const updatePost = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const post = await postService.updatePost(req.body, req.params.id);
+    const post = await postService.updatePost(
+      req.params.animalTypeId,
+      req.params.ownerTopicId,
+      req.params.id,
+      req.body
+    );
     res.status(200).send(post);
   } catch (error) {
     next(error);
@@ -51,8 +64,12 @@ const updatePost = async (req: Request, res: Response, next: NextFunction) => {
 
 const deletePost = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const post = await postService.deletePost(req.params.id);
-    res.status(200).send(post);
+    const post = await postService.deletePost(
+      req.params.animalTypeId,
+      req.params.ownerTopicId,
+      req.params.id
+    );
+    res.status(204).send(post);
   } catch (error) {
     next(error);
   }
@@ -61,7 +78,7 @@ const deletePost = async (req: Request, res: Response, next: NextFunction) => {
 export const postController = {
   getPosts,
   getPost,
-  getTopicPosts,
+  getTopicPost,
   createPost,
   updatePost,
   deletePost,
