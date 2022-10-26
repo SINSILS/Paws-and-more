@@ -4,11 +4,11 @@ import { HttpException } from '../exceptions/httpException';
 const getTopicPost = async (animalTypeId: string, topicId: string) => {
   const animalType = await prisma.animalType.findUnique({ where: { id: animalTypeId } });
   if (!animalType) {
-    throw new HttpException(404, 'Animal type not found!');
+    throw new HttpException(404, 'Not found!');
   }
   const topic = await prisma.topic.findUnique({ where: { id: topicId } });
   if (!topic) {
-    throw new HttpException(404, 'Topic not found!');
+    throw new HttpException(404, 'Not found!');
   }
   const topicPosts = await prisma.post.findMany({
     where: { ownerTopicId: topicId },
@@ -40,15 +40,15 @@ const getPosts = async () => {
 const getPost = async (animalTypeId: string, topicId: string, id: string) => {
   const animalType = await prisma.animalType.findUnique({ where: { id: animalTypeId } });
   if (!animalType) {
-    throw new HttpException(404, 'Animal type not found!');
+    throw new HttpException(404, 'Not found!');
   }
   const topic = await prisma.topic.findUnique({ where: { id: topicId } });
   if (!topic) {
-    throw new HttpException(404, 'Topic not found!');
+    throw new HttpException(404, 'Not found!');
   }
   const post = await prisma.post.findUnique({ where: { id } });
   if (!post) {
-    throw new HttpException(404, 'Post not found!');
+    throw new HttpException(404, 'Not found!');
   }
   return post;
 };
@@ -64,12 +64,12 @@ const createPost = async (
 ) => {
   const animalType = await prisma.animalType.findUnique({ where: { id: animalTypeId } });
   if (!animalType) {
-    throw new HttpException(404, 'Animal type not found!');
+    throw new HttpException(404, 'Not found!');
   }
-  const topic = await prisma.topic.findUnique({ where: { id: topicId } });
-  if (!topic) {
-    throw new HttpException(404, 'Topic not found!');
-  }
+  // const topic = await prisma.topic.findUnique({ where: { id: topicId } });
+  // if (!topic) {
+  //   throw new HttpException(404, 'Topic not found!');
+  // }
   const post = await prisma.post.create({
     data: {
       title: data.title,
@@ -89,15 +89,15 @@ const updatePost = async (
 ) => {
   const animalType = await prisma.animalType.findUnique({ where: { id: animalTypeId } });
   if (!animalType) {
-    throw new HttpException(404, 'Animal type not found!');
+    throw new HttpException(404, 'Not found!');
   }
   const topic = await prisma.topic.findUnique({ where: { id: topicId } });
   if (!topic) {
-    throw new HttpException(404, 'Topic not found!');
+    throw new HttpException(404, 'Not found!');
   }
   const tempPost = await prisma.post.findUnique({ where: { id } });
   if (!tempPost) {
-    throw new HttpException(404, 'Post not found!');
+    throw new HttpException(404, 'Not found!');
   }
   const post = await prisma.post.update({
     where: { id: id },
@@ -109,15 +109,15 @@ const updatePost = async (
 const deletePost = async (animalTypeId: string, topicId: string, id: string) => {
   const animalType = await prisma.animalType.findUnique({ where: { id: animalTypeId } });
   if (!animalType) {
-    throw new HttpException(404, 'Animal type not found!');
+    throw new HttpException(404, 'Not found!');
   }
   const topic = await prisma.topic.findUnique({ where: { id: topicId } });
   if (!topic) {
-    throw new HttpException(404, 'Topic not found!');
+    throw new HttpException(404, 'Not found!');
   }
   const tempPost = await prisma.post.findUnique({ where: { id } });
   if (!tempPost) {
-    throw new HttpException(404, 'Post not found!');
+    throw new HttpException(404, 'Not found!');
   }
   const post = await prisma.post.delete({
     where: { id: id },

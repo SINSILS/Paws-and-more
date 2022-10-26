@@ -20,7 +20,7 @@ const getTopics = async (id: string) => {
 const getTopic = async (animalTypeId: string, id: string) => {
   const animalType = await prisma.animalType.findUnique({ where: { id: animalTypeId } });
   if (!animalType) {
-    throw new HttpException(404, 'Animal type not found!');
+    throw new HttpException(404, 'Not found!');
   }
   const topic = await prisma.topic.findUnique({ where: { id } });
   if (!topic) {
@@ -32,7 +32,7 @@ const getTopic = async (animalTypeId: string, id: string) => {
 const getAnimalTypeTopics = async (animalTypeId: string) => {
   const animalType = await prisma.animalType.findUnique({ where: { id: animalTypeId } });
   if (!animalType) {
-    throw new HttpException(404, 'Animal type not found!');
+    throw new HttpException(404, 'Not found!');
   }
   const animalTypeTopics = await prisma.topic.findMany({
     where: { animalTypeId: animalTypeId },
@@ -47,10 +47,6 @@ const getAnimalTypeTopics = async (animalTypeId: string) => {
 };
 
 const createTopic = async (animalTypeId: string, data: { title: string; description: string }) => {
-  const animalType = await prisma.animalType.findUnique({ where: { id: animalTypeId } });
-  if (!animalType) {
-    throw new HttpException(404, 'Animal type not found!');
-  }
   const topic = await prisma.topic.create({
     data: { title: data.title, description: data.description, animalTypeId: animalTypeId },
   });
