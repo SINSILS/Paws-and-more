@@ -20,6 +20,9 @@ const getAnimalType = async (req: Request, res: Response, next: NextFunction) =>
 };
 
 const createAnimalType = async (req: Request, res: Response, next: NextFunction) => {
+  if (Object.keys(req.body).length === 0) {
+    res.status(400).send({ message: 'Bad request!' });
+  }
   try {
     const animalType = await animalTypeService.createAnimalType(req.body);
     res.status(201).send(animalType);
@@ -29,6 +32,9 @@ const createAnimalType = async (req: Request, res: Response, next: NextFunction)
 };
 
 const updateAnimalType = async (req: Request, res: Response, next: NextFunction) => {
+  if (Object.keys(req.body).length === 0) {
+    res.status(400).send({ message: 'Bad request!' });
+  }
   try {
     const corporation = await animalTypeService.updateAnimalType(req.body, req.params.id);
     res.status(200).send(corporation);

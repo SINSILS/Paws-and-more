@@ -29,6 +29,9 @@ const getAnimalTypeTopcis = async (req: Request, res: Response, next: NextFuncti
 };
 
 const createTopic = async (req: Request, res: Response, next: NextFunction) => {
+  if (Object.keys(req.body).length === 0) {
+    res.status(400).send({ message: 'Bad request!' });
+  }
   try {
     const topic = await topicService.createTopic(req.params.animalTypeId, req.body);
     res.status(201).send(topic);
@@ -38,6 +41,9 @@ const createTopic = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const updateTopic = async (req: Request, res: Response, next: NextFunction) => {
+  if (Object.keys(req.body).length === 0) {
+    res.status(400).send({ message: 'Bad request!' });
+  }
   try {
     const topic = await topicService.updateTopic(req.params.animalTypeId, req.params.id, req.body);
     res.status(200).send(topic);

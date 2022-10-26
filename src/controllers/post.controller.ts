@@ -36,6 +36,9 @@ const getTopicPost = async (req: Request, res: Response, next: NextFunction) => 
 };
 
 const createPost = async (req: Request, res: Response, next: NextFunction) => {
+  if (Object.keys(req.body).length === 0) {
+    res.status(400).send({ message: 'Bad request!' });
+  }
   try {
     const post = await postService.createPost(
       req.params.animalTypeId,
@@ -49,6 +52,9 @@ const createPost = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const updatePost = async (req: Request, res: Response, next: NextFunction) => {
+  if (Object.keys(req.body).length === 0) {
+    res.status(400).send({ message: 'Bad request!' });
+  }
   try {
     const post = await postService.updatePost(
       req.params.animalTypeId,
