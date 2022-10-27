@@ -12,19 +12,15 @@ const getTopics = async (id: string) => {
     },
   });
   if (!topics) {
-    throw new HttpException(404, 'Topics not found');
+    throw new HttpException(404, 'Not found');
   }
   return topics;
 };
 
 const getTopic = async (animalTypeId: string, id: string) => {
-  const animalType = await prisma.animalType.findUnique({ where: { id: animalTypeId } });
-  if (!animalType) {
-    throw new HttpException(404, 'Not found!');
-  }
-  const topic = await prisma.topic.findUnique({ where: { id } });
+  const topic = await prisma.topic.findFirst({ where: { id: id, animalTypeId } });
   if (!topic) {
-    throw new HttpException(404, 'Topic not found!');
+    throw new HttpException(404, 'Not found!');
   }
   return topic;
 };
@@ -47,6 +43,9 @@ const getAnimalTypeTopics = async (animalTypeId: string) => {
 };
 
 const createTopic = async (animalTypeId: string, data: { title: string; description: string }) => {
+  // if (data.title == null || data.description == null) {
+  //   throw new HttpException(400, 'Bad request!');
+  // }
   const topic = await prisma.topic.create({
     data: { title: data.title, description: data.description, animalTypeId: animalTypeId },
   });
@@ -58,13 +57,9 @@ const updateTopic = async (
   id: string,
   data: { title: string; description: string }
 ) => {
-  const animalType = await prisma.animalType.findUnique({ where: { id: animalTypeId } });
-  if (!animalType) {
-    throw new HttpException(404, 'Animal type not found!');
-  }
-  const tempTopic = await prisma.topic.findUnique({ where: { id } });
+  const tempTopic = await prisma.topic.findFirst({ where: { id: id, animalTypeId } });
   if (!tempTopic) {
-    throw new HttpException(404, 'Topic not found!');
+    throw new HttpException(404, 'Not found!');
   }
   const topic = await prisma.topic.update({
     where: { id: id },
@@ -74,13 +69,9 @@ const updateTopic = async (
 };
 
 const deleteTopic = async (animalTypeId: string, id: string) => {
-  const animalType = await prisma.animalType.findUnique({ where: { id: animalTypeId } });
-  if (!animalType) {
-    throw new HttpException(404, 'Animal type not found!');
-  }
-  const tempTopic = await prisma.topic.findUnique({ where: { id } });
+  const tempTopic = await prisma.topic.findFirst({ where: { id: id, animalTypeId } });
   if (!tempTopic) {
-    throw new HttpException(404, 'Topic not found!');
+    throw new HttpException(404, 'Not found!');
   }
   const topic = await prisma.topic.delete({
     where: { id: id },
