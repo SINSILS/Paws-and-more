@@ -25,7 +25,7 @@ const getAnimalType = async (id: string) => {
 };
 
 const createAnimalType = async (data: { name: string; description: string }) => {
-  if (data.name == null || data.description == null) {
+  if (!data.name || !data.description) {
     throw new HttpException(400, 'Bad request!');
   }
   const animalType = await prisma.animalType.create({

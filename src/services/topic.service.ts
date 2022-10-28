@@ -43,9 +43,9 @@ const getAnimalTypeTopics = async (animalTypeId: string) => {
 };
 
 const createTopic = async (animalTypeId: string, data: { title: string; description: string }) => {
-  // if (data.title == null || data.description == null) {
-  //   throw new HttpException(400, 'Bad request!');
-  // }
+  if (!data.title || !data.description) {
+    throw new HttpException(400, 'Bad request!');
+  }
   const topic = await prisma.topic.create({
     data: { title: data.title, description: data.description, animalTypeId: animalTypeId },
   });

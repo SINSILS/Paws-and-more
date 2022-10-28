@@ -54,7 +54,7 @@ const createPost = async (
     ownerUserId: string;
   }
 ) => {
-  if (data.title == null || data.content == null || data.ownerUserId == null) {
+  if (!data.title || !data.content || !data.ownerUserId) {
     throw new HttpException(400, 'Bad request!');
   }
   const topic = await prisma.topic.findFirst({ where: { id: topicId, animalTypeId } });
