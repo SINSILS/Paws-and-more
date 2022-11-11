@@ -24,7 +24,8 @@ const createAnimalType = async (req: Request, res: Response, next: NextFunction)
     res.status(400).send({ message: 'Bad request!' });
   }
   try {
-    const animalType = await animalTypeService.createAnimalType(req.body);
+    const role = req.tokenData.role;
+    const animalType = await animalTypeService.createAnimalType(req.body, role);
     res.status(201).send(animalType);
   } catch (error) {
     next(error);
@@ -36,8 +37,9 @@ const updateAnimalType = async (req: Request, res: Response, next: NextFunction)
     res.status(400).send({ message: 'Bad request!' });
   }
   try {
-    const corporation = await animalTypeService.updateAnimalType(req.body, req.params.id);
-    res.status(200).send(corporation);
+    const role = req.tokenData.role;
+    const animalType = await animalTypeService.updateAnimalType(req.body, req.params.id, role);
+    res.status(200).send(animalType);
   } catch (error) {
     next(error);
   }
@@ -45,8 +47,9 @@ const updateAnimalType = async (req: Request, res: Response, next: NextFunction)
 
 const deleteAnimalType = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const corporation = await animalTypeService.deleteAnimalType(req.params.id);
-    res.status(204).send(corporation);
+    const role = req.tokenData.role;
+    const animalType = await animalTypeService.deleteAnimalType(req.params.id, role);
+    res.status(204).send(animalType);
   } catch (error) {
     next(error);
   }

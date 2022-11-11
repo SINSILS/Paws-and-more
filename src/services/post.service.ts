@@ -48,13 +48,13 @@ const getPost = async (animalTypeId: string, topicId: string, id: string) => {
 const createPost = async (
   animalTypeId: string,
   topicId: string,
+  ownerUserId: string,
   data: {
     title: string;
     content: string;
-    ownerUserId: string;
   }
 ) => {
-  if (!data.title || !data.content || !data.ownerUserId) {
+  if (!data.title || !data.content) {
     throw new HttpException(400, 'Bad request!');
   }
   const topic = await prisma.topic.findFirst({ where: { id: topicId, animalTypeId } });
@@ -65,7 +65,7 @@ const createPost = async (
     data: {
       title: data.title,
       content: data.content,
-      ownerUserId: data.ownerUserId,
+      ownerUserId: ownerUserId,
       ownerTopicId: topicId,
     },
   });
@@ -76,12 +76,16 @@ const updatePost = async (
   animalTypeId: string,
   topicId: string,
   id: string,
+  ownerUserId: string,
   data: { title: string; content: string }
 ) => {
   const topic = await prisma.topic.findFirst({ where: { id: topicId, animalTypeId } });
   const tempPost = await prisma.post.findFirst({ where: { id, ownerTopicId: topicId } });
   if (!tempPost || !topic) {
     throw new HttpException(404, 'Not found!');
+  }
+  if (tempPost.ownerUserId != ownerUserId) {
+    throw new HttpException(403, 'Forbidden.');
   }
   const post = await prisma.post.update({
     where: { id: id },
@@ -90,11 +94,19 @@ const updatePost = async (
   return post;
 };
 
-const deletePost = async (animalTypeId: string, topicId: string, id: string) => {
+const deletePost = async (
+  animalTypeId: string,
+  topicId: string,
+  id: string,
+  ownerUserId: string
+) => {
   const topic = await prisma.topic.findFirst({ where: { id: topicId, animalTypeId } });
   const tempPost = await prisma.post.findFirst({ where: { id, ownerTopicId: topicId } });
   if (!tempPost || !topic) {
     throw new HttpException(404, 'Not found!');
+  }
+  if (tempPost.ownerUserId != ownerUserId) {
+    throw new HttpException(403, 'Forbidden.');
   }
   const post = await prisma.post.delete({
     where: { id: id },

@@ -1,21 +1,30 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { authService } from '../services/auth.service';
 
-export const login = (req: Request, res: Response) => {
+const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { username, password } = req.body;
+    const data: {
+      email: string;
+      username: string;
+      password: string;
+    } = req.body;
+    const token = await authService.register(data);
 
-    if (!username || !password) {
-      res.status(400).send({ error: 'bad input' });
-      return;
-    }
-
-    const data = authService.login(username, password);
-
-    res.status(200).send(data);
+    res.status(200).send(token);
   } catch (error) {
-    res.status(500).send();
+    next(error);
   }
 };
 
-export const authController = { login };
+const login = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const data: { email: string; password: string } = req.body;
+    const token = await authService.login(data);
+
+    res.status(200).send({ token: token });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const authController = { login, register };

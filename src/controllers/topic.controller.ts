@@ -33,7 +33,8 @@ const createTopic = async (req: Request, res: Response, next: NextFunction) => {
     res.status(400).send({ message: 'Bad request!' });
   }
   try {
-    const topic = await topicService.createTopic(req.params.animalTypeId, req.body);
+    const role = req.tokenData.role;
+    const topic = await topicService.createTopic(req.params.animalTypeId, req.body, role);
     res.status(201).send(topic);
   } catch (error) {
     next(error);
@@ -44,8 +45,14 @@ const updateTopic = async (req: Request, res: Response, next: NextFunction) => {
   if (Object.keys(req.body).length === 0) {
     res.status(400).send({ message: 'Bad request!' });
   }
+  const role = req.tokenData.role;
   try {
-    const topic = await topicService.updateTopic(req.params.animalTypeId, req.params.id, req.body);
+    const topic = await topicService.updateTopic(
+      req.params.animalTypeId,
+      req.params.id,
+      req.body,
+      role
+    );
     res.status(200).send(topic);
   } catch (error) {
     next(error);
@@ -54,7 +61,8 @@ const updateTopic = async (req: Request, res: Response, next: NextFunction) => {
 
 const deleteTopic = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const topic = await topicService.deleteTopic(req.params.animalTypeId, req.params.id);
+    const role = req.tokenData.role;
+    const topic = await topicService.deleteTopic(req.params.animalTypeId, req.params.id, role);
     res.status(204).send(topic);
   } catch (error) {
     next(error);
