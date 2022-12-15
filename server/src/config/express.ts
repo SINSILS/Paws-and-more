@@ -7,6 +7,7 @@ import { animalTypeRouter } from '../routes/animalType.router';
 import { authRouter } from '../routes/auth.router';
 import { postRouter } from '../routes/post.router';
 import { topicRouter } from '../routes/topic.router';
+import { userRouter } from '../routes/user.router';
 // import { indexRouter } from '../routes/index.router';
 
 const expressConfig = () => {
@@ -21,6 +22,7 @@ const expressConfig = () => {
   app.use('/api', topicRouter);
   app.use('/api', postRouter);
   app.use('/api', authRouter);
+  app.use('/api', userRouter);
   app.use((req, res) => {
     res.status(400).send(JSON.parse('Bad request.'));
   });

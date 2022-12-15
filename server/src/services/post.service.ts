@@ -14,6 +14,7 @@ const getTopicPost = async (animalTypeId: string, topicId: string) => {
       content: true,
       ownerTopicId: true,
       ownerUserId: true,
+      ownerUser: { select: { username: true } },
     },
   });
   return topicPosts;
@@ -38,7 +39,15 @@ const getPost = async (animalTypeId: string, topicId: string, id: string) => {
   if (!topic) {
     throw new HttpException(404, 'Not found!');
   }
-  const post = await prisma.post.findFirst({ where: { id, ownerTopicId: topicId } });
+  const post = await prisma.post.findFirst({
+    where: { id, ownerTopicId: topicId },
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      ownerUser: { select: { username: true } },
+    },
+  });
   if (!post) {
     throw new HttpException(404, 'Not found!');
   }
