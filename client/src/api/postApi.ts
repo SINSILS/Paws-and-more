@@ -27,6 +27,7 @@ const updatePost = (
   topicId: string,
   id: string
 ) => {
+  console.log(data, animalTypeId, topicId, id);
   return axios.put(
     `${API_URL}/${animalTypeId}/topic/${topicId}/post/${id}`,
     data

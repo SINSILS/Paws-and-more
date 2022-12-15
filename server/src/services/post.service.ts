@@ -86,6 +86,7 @@ const updatePost = async (
   topicId: string,
   id: string,
   ownerUserId: string,
+  role: string,
   data: { title: string; content: string }
 ) => {
   const topic = await prisma.topic.findFirst({ where: { id: topicId, animalTypeId } });
@@ -93,7 +94,7 @@ const updatePost = async (
   if (!tempPost || !topic) {
     throw new HttpException(404, 'Not found!');
   }
-  if (tempPost.ownerUserId != ownerUserId) {
+  if (tempPost.ownerUserId != ownerUserId && role !== 'ADMIN' && role !== 'SUPER_ADMIN') {
     throw new HttpException(403, 'Forbidden.');
   }
   const post = await prisma.post.update({
@@ -107,14 +108,15 @@ const deletePost = async (
   animalTypeId: string,
   topicId: string,
   id: string,
-  ownerUserId: string
+  ownerUserId: string,
+  role: string
 ) => {
   const topic = await prisma.topic.findFirst({ where: { id: topicId, animalTypeId } });
   const tempPost = await prisma.post.findFirst({ where: { id, ownerTopicId: topicId } });
   if (!tempPost || !topic) {
     throw new HttpException(404, 'Not found!');
   }
-  if (tempPost.ownerUserId != ownerUserId) {
+  if (tempPost.ownerUserId != ownerUserId && role !== 'ADMIN' && role !== 'SUPER_ADMIN') {
     throw new HttpException(403, 'Forbidden.');
   }
   const post = await prisma.post.delete({

@@ -59,11 +59,13 @@ const updatePost = async (req: Request, res: Response, next: NextFunction) => {
   }
   try {
     const ownerUserId = req.tokenData.id;
+    const role = req.tokenData.role;
     const post = await postService.updatePost(
       req.params.animalTypeId,
       req.params.ownerTopicId,
       req.params.id,
       ownerUserId,
+      role,
       req.body
     );
     res.status(200).send(post);
@@ -75,11 +77,13 @@ const updatePost = async (req: Request, res: Response, next: NextFunction) => {
 const deletePost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const ownerUserId = req.tokenData.id;
+    const role = req.tokenData.role;
     const post = await postService.deletePost(
       req.params.animalTypeId,
       req.params.ownerTopicId,
       req.params.id,
-      ownerUserId
+      ownerUserId,
+      role
     );
     res.status(204).send(post);
   } catch (error) {
