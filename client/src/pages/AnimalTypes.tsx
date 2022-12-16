@@ -108,7 +108,7 @@ const AnimalTypes = () => {
                       NiceModal.show(EditAnimalType, {
                         name: animalType.name,
                         description: animalType.description,
-                        animalid: animalType.id,
+                        animalTypeId: animalType.id,
                         confirm: () => {
                           setRefetch(!refetch);
                         },

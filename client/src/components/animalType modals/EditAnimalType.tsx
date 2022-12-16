@@ -33,14 +33,14 @@ export const EditAnimalTypeSchema = Yup.object({
 interface Props {
   name: string;
   description: string;
-  id: string;
+  animalTypeId: string;
   confirm: () => void;
 }
 
 const EditAnimalType = NiceModal.create((props: Props) => {
   const modal = useModal();
   const [apiError, setApiError] = useState("");
-  const { name, description, id, confirm } = props;
+  const { name, description, animalTypeId, confirm } = props;
 
   return (
     <Dialog
@@ -56,7 +56,7 @@ const EditAnimalType = NiceModal.create((props: Props) => {
         validationSchema={EditAnimalTypeSchema}
         onSubmit={(values) => {
           try {
-            animalTypeApi.updateAnimalType(values, id).then(() => {
+            animalTypeApi.updateAnimalType(values, animalTypeId).then(() => {
               confirm();
               modal.remove();
             });
